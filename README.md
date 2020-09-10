@@ -1,3 +1,3 @@
 # vue-openweather
 
-Simple OpenWeather API project
+Simple OpenWeather API client project
