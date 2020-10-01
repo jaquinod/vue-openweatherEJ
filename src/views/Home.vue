@@ -1,22 +1,35 @@
 <template>
-  <b-container>
-    <b-row align-h="center">
-      <b-col class="text-center" cols="4">
+  <b-container :fluid="true" class="h-100">
+    <b-row class="h-100">
+      <b-col
+        cols="3"
+        class="text-center pt-3 pb-3"
+        style="background-color: #2c3e50"
+      >
         <b-form inline>
           <b-input
             v-model="cityToAdd"
             type="text"
             @keydown.enter.prevent="addNewCity(cityToAdd)"
           />
-          <b-button @click="addNewCity(cityToAdd)">
+          <b-button @click="addNewCity(cityToAdd)" variant="primary">
             <b-icon-search></b-icon-search>
           </b-button>
         </b-form>
       </b-col>
-    </b-row>
-    <b-row>
-      <b-col v-for="(city, index) in getCities" :key="index" sm="4">
-        <CityCard :city-name="city" :city-index="index"></CityCard>
+      <b-col>
+        <b-container>
+          <b-row>
+            <b-col
+              v-for="(city, index) in getCities"
+              :key="index"
+              sm="4"
+              class="pt-3 pb-3"
+            >
+              <CityCard :city-name="city" :city-index="index"></CityCard>
+            </b-col>
+          </b-row>
+        </b-container>
       </b-col>
     </b-row>
     <b-alert
