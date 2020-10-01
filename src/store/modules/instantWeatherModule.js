@@ -1,13 +1,16 @@
 export default {
   state: {
-    cities: new Map()
+    cities: ["cergy", "paris", "lyon", "marseille", "bordeaux", "lille"]
   },
   getters: {
     getCities: state => state.cities
   },
   mutations: {
-    setCities(state, cities) {
-      state.cities = cities;
+    deleteCity(state, index) {
+      state.cities.splice(index, 1);
+    },
+    addCity(state, city) {
+      state.cities.push(city);
     }
   },
   actions: {

@@ -1,10 +1,15 @@
 <template>
   <b-card class="overflow-hidden w-100" no-body>
-    <b-row no-gutters>
+    <b-row>
       <b-col>
         <b-card-header>
           <b-row>
-            <b-col md="3">
+            <b-col cols="1">
+              <a style="cursor: pointer" @click="refresh">
+                <b-icon-arrow-repeat></b-icon-arrow-repeat>
+              </a>
+            </b-col>
+            <b-col cols="3">
               <b-card-img
                 :alt="cityData.weather[0].description"
                 :src="
@@ -15,8 +20,13 @@
                 class="rounded-0"
               ></b-card-img>
             </b-col>
-            <b-col class="text-center align-middle" md="9"
+            <b-col class="text-center align-middle"
               >{{ cityData.name + ", " + cityData.sys.country }}
+            </b-col>
+            <b-col cols="1">
+              <a style="cursor: pointer" @click="deleteCity(cityIndex)">
+                <b-icon-trash></b-icon-trash>
+              </a>
             </b-col>
           </b-row>
         </b-card-header>
@@ -30,24 +40,25 @@
               <b-row>
                 <b-col>{{ cityData.weather[0].description }}</b-col>
               </b-row>
-              <b-row no-gutters>
+              <b-row>
                 <b-col>
-                  <b-img fluid right src="@/assets/Thermometer.svg"></b-img>
+                  <b-icon-thermometer></b-icon-thermometer>
+                  {{ cityData.main.temp }}
+                  <b-img
+                    src="@/assets/Degrees-Celcius.svg"
+                    style="height: 1em"
+                  ></b-img>
                 </b-col>
-                <b-col md="4">{{ cityData.main.temp }}</b-col>
                 <b-col>
-                  <b-img fluid left src="@/assets/Degrees-Celcius.svg"></b-img>
+                  <b-icon-droplet-fill></b-icon-droplet-fill>
+                  {{ cityData.main.humidity }} %
                 </b-col>
-              </b-row>
-              <b-row no-gutters>
-                <b-col md="4">
-                  <b-img fluid right src="@/assets/Humidity.svg"></b-img>
-                </b-col>
-                <b-col md="4">{{ cityData.main.humidity }} %</b-col>
               </b-row>
               <b-row>
                 <b-col>
-                  <b-button href="#" variant="primary">Détails</b-button>
+                  <b-button href="#" variant="primary"
+                    >Détails des prévisions sur 5 Jours
+                  </b-button>
                 </b-col>
               </b-row>
             </b-container>
@@ -55,7 +66,7 @@
         </b-card-body>
       </b-col>
     </b-row>
-    <b-row no-gutters>
+    <b-row>
       <b-col>
         <b-card-footer>
           <span :title="cityData.dt | moment('DD/MM/YYYY HH:mm:ss')"
@@ -68,11 +79,15 @@
 </template>
 
 <script>
+import instantWeatherService from "@/services/instantWeatherService";
+import { mapMutations } from "vuex";
+
 export default {
   name: "CityCard",
-  props: ["cityData"],
+  props: ["cityName", "cityIndex"],
   data() {
     return {
+      refreshing: true
       /* content: {
         coord: {
           lon: 2.07,
@@ -116,6 +131,30 @@ export default {
         cod: 200
       } */
     };
+  },
+  methods: {
+    ...mapMutations(["deleteCity"]),
+    refresh() {
+      this.refreshing = !this.refreshing;
+    }
+    /*
+    lastUpdate(){
+      setInterval(this.$moment(this.cityData.dt).format("from", "now"));
+    }*/
+  },
+  asyncComputed: {
+    cityData: {
+      get() {
+        this.refreshing;
+        console.log("refreshed");
+        return instantWeatherService
+          .getInstantWeather(this.cityName)
+          .then(response => response.data);
+      },
+      default() {
+        return {};
+      }
+    }
   }
 };
 </script>
