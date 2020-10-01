@@ -59,7 +59,7 @@
                 <b-row>
                   <b-col>
                     <b-button
-                      href="#"
+                      :to="{ name: 'City', params: { cityName: cityName } }"
                       title="Détails des prévisions sur 5 jours"
                       variant="primary"
                     >
@@ -105,7 +105,6 @@ export default {
   asyncComputed: {
     cityData: {
       get() {
-        console.log("refreshed");
         return instantWeatherService
           .getInstantWeather(this.cityName)
           .then(response => response.data);

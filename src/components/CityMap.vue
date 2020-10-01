@@ -1,17 +1,15 @@
 <template>
-  <div style="height: 400px; width: 100%;">
-    <l-map
-      v-if="showMap"
-      :center="center"
-      :options="mapOptions"
-      :zoom="zoom"
-      @update:center="centerUpdate"
-      @update:zoom="zoomUpdate"
-    >
-      <l-tile-layer :attribution="attribution" :url="url" />
-      <l-marker :lat-lng="center"></l-marker>
-    </l-map>
-  </div>
+  <l-map
+    v-if="showMap"
+    :center="center"
+    :options="mapOptions"
+    :zoom="zoom"
+    @update:center="centerUpdate"
+    @update:zoom="zoomUpdate"
+  >
+    <l-tile-layer :attribution="attribution" :url="url" />
+    <l-marker :lat-lng="center"></l-marker>
+  </l-map>
 </template>
 
 <script>
@@ -31,7 +29,7 @@ export default {
   },
   data() {
     return {
-      zoom: 13,
+      zoom: 9,
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
