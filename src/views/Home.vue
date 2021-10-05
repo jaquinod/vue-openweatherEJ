@@ -6,13 +6,14 @@
         class="text-center pt-3 pb-3"
         style="background-color: #2c3e50"
       >
-        <b-form inline>
+        <b-form inline class="d-flex">
           <b-input
             v-model="cityToAdd"
+            class="flex-grow-1"
             type="text"
             @keydown.enter.prevent="addNewCity(cityToAdd)"
           />
-          <b-button @click="addNewCity(cityToAdd)" variant="primary">
+          <b-button @click="addNewCity(cityToAdd)" variant="primary" class="">
             <b-icon-search></b-icon-search>
           </b-button>
         </b-form>
@@ -33,7 +34,7 @@
       </b-col>
     </b-row>
     <b-alert
-      v-model="showBottom"
+      v-model="showTooMuch"
       class="position-fixed fixed-bottom m-0 rounded-0"
       style="z-index: 2000;"
       variant="danger"
@@ -41,12 +42,22 @@
     >
       Maximum 6 villes sur le dashboard.
     </b-alert>
+    <b-alert
+      v-model="showNotFound"
+      class="position-fixed fixed-bottom m-0 rounded-0"
+      style="z-index: 2000;"
+      variant="danger"
+      :dismissible="true"
+    >
+      Ville Non Trouvée.
+    </b-alert>
   </b-container>
 </template>
 
 <script>
 import CityCard from "@/components/CityCard";
 import { mapGetters, mapMutations } from "vuex";
+import instantWeatherService from "@/services/instantWeatherService";
 
 export default {
   name: "Home",
@@ -54,17 +65,29 @@ export default {
   data() {
     return {
       cityToAdd: "",
-      showBottom: false
+      showTooMuch: false,
+      showNotFound: false
     };
   },
   methods: {
     ...mapMutations(["addCity"]),
     addNewCity(city) {
       if (this.getCities.length < 6) {
-        this.addCity(city);
+        instantWeatherService.getInstantWeather(city).then(
+          () => {
+            this.addCity(city);
+          },
+          reason => {
+            if (reason.response.status === 404) {
+              // Do nothing
+              this.showNotFound = !this.showNotFound;
+            }
+          }
+        );
       } else {
-        this.showBottom = !this.showBottom;
+        this.showTooMuch = !this.showTooMuch;
       }
+      this.cityToAdd = "";
     }
   },
   computed: {
