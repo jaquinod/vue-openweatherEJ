@@ -4,4 +4,4 @@ import moment from "moment";
 
 require("moment/locale/fr");
 
-Vue.use(VueMoment, {moment});
+Vue.use(VueMoment, { moment });

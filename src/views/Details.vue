@@ -44,22 +44,22 @@
                   </template>
                   <template v-slot:cell(weather[0])="data">
                     <WeatherAvatar
-                        :description="data.value.description"
-                        :icon="data.value.icon"
+                      :description="data.value.description"
+                      :icon="data.value.icon"
                     ></WeatherAvatar>
                   </template>
                   <template v-slot:cell(main.temp)="data">
                     <temperature
-                        :tempdata="data.value"
-                        cold-temp-floor="10"
-                        hot-temp-floor="23"
+                      :tempdata="data.value"
+                      cold-temp-floor="10"
+                      hot-temp-floor="23"
                     ></temperature>
                   </template>
                   <template v-slot:cell(main.humidity)="data">
                     <Humidity
-                        :humiditydata="data.value"
-                        max="65"
-                        min="40"
+                      :humiditydata="data.value"
+                      max="65"
+                      min="40"
                     ></Humidity>
                   </template>
                 </b-table>
@@ -92,7 +92,7 @@ import WeatherAvatar from "@/components/WeatherAvatar";
 
 export default {
   name: "Details",
-  components: {WeatherAvatar, Humidity, Temperature, CityMap},
+  components: { WeatherAvatar, Humidity, Temperature, CityMap },
   data() {
     return {
       coldTempFloor: 10,
@@ -100,10 +100,10 @@ export default {
       perPage: 5,
       currentPage: 1,
       fields: [
-        {key: "dt", label: "Date", sortable: true},
-        {key: "weather[0]", label: "Etat"},
-        {key: "main.temp", label: "Température Moyenne", sortable: true},
-        {key: "main.humidity", label: "Taux d'Humidité", sortable: true}
+        { key: "dt", label: "Date", sortable: true },
+        { key: "weather[0]", label: "Etat" },
+        { key: "main.temp", label: "Température Moyenne", sortable: true },
+        { key: "main.humidity", label: "Taux d'Humidité", sortable: true }
       ]
     };
   },
@@ -111,8 +111,8 @@ export default {
     cityData: {
       get() {
         return instantForecastService
-            .getInstantForecast(this.$route.params.cityName)
-            .then(response => response.data);
+          .getInstantForecast(this.$route.params.cityName)
+          .then(response => response.data);
       },
       default() {
         return {};

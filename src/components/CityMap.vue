@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import { latLng } from "leaflet";
-import { LMap, LMarker, LTileLayer } from "vue2-leaflet";
+import {latLng} from "leaflet";
+import {LMap, LMarker, LTileLayer} from "vue2-leaflet";
 
 export default {
   name: "CityMap",
@@ -32,7 +32,7 @@ export default {
       zoom: 9,
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
-          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       currentZoom: 9,
       showParagraph: false,
       mapOptions: {

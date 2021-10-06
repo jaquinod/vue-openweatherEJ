@@ -7,8 +7,8 @@
             <b-row align-v="center">
               <b-col cols="3">
                 <WeatherAvatar
-                    :description="cityData.weather[0].description"
-                    :icon="cityData.weather[0].icon"
+                  :description="cityData.weather[0].description"
+                  :icon="cityData.weather[0].icon"
                 ></WeatherAvatar>
               </b-col>
               <b-col class="p-0" cols="1">
@@ -39,16 +39,16 @@
                 <b-row class="mb-1 mt-1">
                   <b-col>
                     <temperature
-                        :tempdata="cityData.main.temp"
-                        cold-temp-floor="10"
-                        hot-temp-floor="23"
+                      :tempdata="cityData.main.temp"
+                      cold-temp-floor="10"
+                      hot-temp-floor="23"
                     ></temperature>
                   </b-col>
                   <b-col>
                     <Humidity
-                        :humiditydata="cityData.main.humidity"
-                        max="65"
-                        min="40"
+                      :humiditydata="cityData.main.humidity"
+                      max="65"
+                      min="40"
                     ></Humidity>
                   </b-col>
                 </b-row>
@@ -73,7 +73,7 @@
         <b-col>
           <b-card-footer>
             <span :title="cityData.dt | moment('DD/MM/YYYY HH:mm:ss')"
-            >Mise à jour {{ cityData.dt | moment("from", "now") }}</span
+              >Mise à jour {{ cityData.dt | moment("from", "now") }}</span
             ></b-card-footer
           >
         </b-col>
@@ -91,7 +91,7 @@ import WeatherAvatar from "@/components/WeatherAvatar";
 
 export default {
   name: "CityCard",
-  components: {WeatherAvatar, Temperature, Humidity},
+  components: { WeatherAvatar, Temperature, Humidity },
   props: ["cityName", "cityIndex"],
   data() {
     return {};

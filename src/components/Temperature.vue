@@ -11,7 +11,7 @@ export default {
   name: "Temperature",
   props: ["tempdata", "coldTempFloor", "hotTempFloor"],
   methods: {
-    animateOrNot: function () {
+    animateOrNot: function() {
       if (this.tempdata < this.coldTempFloor) {
         return "shake";
       }
