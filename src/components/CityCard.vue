@@ -6,16 +6,10 @@
           <b-card-header style="background-color: #2c3e50; color: white">
             <b-row align-v="center">
               <b-col cols="3">
-                <b-avatar variant="primary">
-                  <b-card-img
-                    :alt="cityData.weather[0].description"
-                    :src="
-                      'http://openweathermap.org/img/wn/' +
-                        cityData.weather[0].icon +
-                        '@4x.png'
-                    "
-                  ></b-card-img>
-                </b-avatar>
+                <WeatherAvatar
+                    :description="cityData.weather[0].description"
+                    :icon="cityData.weather[0].icon"
+                ></WeatherAvatar>
               </b-col>
               <b-col class="p-0" cols="1">
                 <a style="cursor: pointer" @click="refresh">
@@ -44,16 +38,18 @@
                 </b-row>
                 <b-row class="mb-1 mt-1">
                   <b-col>
-                    <b-icon-thermometer></b-icon-thermometer>
-                    {{ cityData.main.temp }}
-                    <b-img
-                      src="@/assets/Degrees-Celcius.svg"
-                      style="height: 1em"
-                    ></b-img>
+                    <temperature
+                        :tempdata="cityData.main.temp"
+                        cold-temp-floor="10"
+                        hot-temp-floor="23"
+                    ></temperature>
                   </b-col>
                   <b-col>
-                    <b-icon-droplet-fill></b-icon-droplet-fill>
-                    {{ cityData.main.humidity }} %
+                    <Humidity
+                        :humiditydata="cityData.main.humidity"
+                        max="65"
+                        min="40"
+                    ></Humidity>
                   </b-col>
                 </b-row>
                 <b-row>
@@ -77,7 +73,7 @@
         <b-col>
           <b-card-footer>
             <span :title="cityData.dt | moment('DD/MM/YYYY HH:mm:ss')"
-            >Mis à jour {{ cityData.dt | moment("from", "now") }}</span
+            >Mise à jour {{ cityData.dt | moment("from", "now") }}</span
             ></b-card-footer
           >
         </b-col>
@@ -88,10 +84,14 @@
 
 <script>
 import instantWeatherService from "@/services/instantWeatherService";
-import { mapMutations } from "vuex";
+import {mapMutations} from "vuex";
+import Temperature from "@/components/Temperature";
+import Humidity from "@/components/Humidity";
+import WeatherAvatar from "@/components/WeatherAvatar";
 
 export default {
   name: "CityCard",
+  components: {WeatherAvatar, Temperature, Humidity},
   props: ["cityName", "cityIndex"],
   data() {
     return {};

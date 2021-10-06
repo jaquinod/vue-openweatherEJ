@@ -43,36 +43,24 @@
                     <!--                    {{ data.value | moment("from", "now") }}-->
                   </template>
                   <template v-slot:cell(weather[0])="data">
-                    <b-avatar :title="data.value.description" variant="primary">
-                      <b-card-img
-                        :alt="data.value.description"
-                        :src="
-                          'http://openweathermap.org/img/wn/' +
-                            data.value.icon +
-                            '@4x.png'
-                        "
-                      ></b-card-img>
-                    </b-avatar>
+                    <WeatherAvatar
+                        :description="data.value.description"
+                        :icon="data.value.icon"
+                    ></WeatherAvatar>
                   </template>
                   <template v-slot:cell(main.temp)="data">
-                    <b-icon-thermometer
-                        :animation="animateOrNot(data.value)"
-                    ></b-icon-thermometer>
-                    {{ data.value }}
-                    <b-img
-                        src="@/assets/Degrees-Celcius.svg"
-                        style="height: 1em"
-                    ></b-img>
+                    <temperature
+                        :tempdata="data.value"
+                        cold-temp-floor="10"
+                        hot-temp-floor="23"
+                    ></temperature>
                   </template>
                   <template v-slot:cell(main.humidity)="data">
-                    <b-icon-droplet v-if="data.value <= 40"></b-icon-droplet>
-                    <b-icon-droplet-half
-                        v-if="data.value > 40 && data.value <= 65"
-                    ></b-icon-droplet-half>
-                    <b-icon-droplet-fill
-                        v-if="data.value > 65"
-                    ></b-icon-droplet-fill>
-                    {{ data.value }} %
+                    <Humidity
+                        :humiditydata="data.value"
+                        max="65"
+                        min="40"
+                    ></Humidity>
                   </template>
                 </b-table>
               </b-col>
@@ -98,10 +86,13 @@
 <script>
 import CityMap from "@/components/CityMap";
 import instantForecastService from "@/services/instantForecastService";
+import Temperature from "@/components/Temperature";
+import Humidity from "@/components/Humidity";
+import WeatherAvatar from "@/components/WeatherAvatar";
 
 export default {
   name: "Details",
-  components: {CityMap},
+  components: {WeatherAvatar, Humidity, Temperature, CityMap},
   data() {
     return {
       coldTempFloor: 10,
@@ -115,16 +106,6 @@ export default {
         {key: "main.humidity", label: "Taux d'Humidité", sortable: true}
       ]
     };
-  },
-  methods: {
-    animateOrNot: function (temp) {
-      if (temp < this.$data.coldTempFloor) {
-        return "shake";
-      }
-      if (temp > this.$data.hotTempFloor) {
-        return "throb";
-      }
-    }
   },
   asyncComputed: {
     cityData: {
@@ -140,32 +121,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.b-icon-animation-shake {
-  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
-}
-
-@keyframes shake {
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-  }
-}
-</style>
