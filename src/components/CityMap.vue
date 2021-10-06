@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import {latLng} from "leaflet";
-import {LMap, LMarker, LTileLayer} from "vue2-leaflet";
+import { latLng } from "leaflet";
+import { LMap, LMarker, LTileLayer } from "vue2-leaflet";
 
 export default {
   name: "CityMap",

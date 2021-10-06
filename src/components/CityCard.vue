@@ -84,7 +84,7 @@
 
 <script>
 import instantWeatherService from "@/services/instantWeatherService";
-import {mapMutations} from "vuex";
+import { mapMutations } from "vuex";
 import Temperature from "@/components/Temperature";
 import Humidity from "@/components/Humidity";
 import WeatherAvatar from "@/components/WeatherAvatar";
