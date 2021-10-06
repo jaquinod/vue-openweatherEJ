@@ -32,8 +32,8 @@ export default {
       zoom: 9,
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      currentZoom: 11.5,
+          '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      currentZoom: 9,
       showParagraph: false,
       mapOptions: {
         zoomSnap: 0.5

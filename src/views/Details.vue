@@ -38,7 +38,9 @@
                   striped
                 >
                   <template v-slot:cell(dt)="data">
-                    {{ data.value | moment("DD/MM/YYYY HH:mm:ss") }}
+                    <!--                    {{ data.value | moment("DD/MM/YYYY HH:mm:ss") }}-->
+                    {{ data.value | moment("llll") }}
+                    <!--                    {{ data.value | moment("from", "now") }}-->
                   </template>
                   <template v-slot:cell(weather[0])="data">
                     <b-avatar :title="data.value.description" variant="primary">
@@ -53,15 +55,23 @@
                     </b-avatar>
                   </template>
                   <template v-slot:cell(main.temp)="data">
-                    <b-icon-thermometer></b-icon-thermometer>
+                    <b-icon-thermometer
+                        :animation="animateOrNot(data.value)"
+                    ></b-icon-thermometer>
                     {{ data.value }}
                     <b-img
-                      src="@/assets/Degrees-Celcius.svg"
-                      style="height: 1em"
+                        src="@/assets/Degrees-Celcius.svg"
+                        style="height: 1em"
                     ></b-img>
                   </template>
                   <template v-slot:cell(main.humidity)="data">
-                    <b-icon-droplet-fill></b-icon-droplet-fill>
+                    <b-icon-droplet v-if="data.value <= 40"></b-icon-droplet>
+                    <b-icon-droplet-half
+                        v-if="data.value > 40 && data.value <= 65"
+                    ></b-icon-droplet-half>
+                    <b-icon-droplet-fill
+                        v-if="data.value > 65"
+                    ></b-icon-droplet-fill>
                     {{ data.value }} %
                   </template>
                 </b-table>
@@ -90,26 +100,38 @@ import CityMap from "@/components/CityMap";
 import instantForecastService from "@/services/instantForecastService";
 
 export default {
-  name: "About",
-  components: { CityMap },
+  name: "Details",
+  components: {CityMap},
   data() {
     return {
+      coldTempFloor: 10,
+      hotTempFloor: 23,
       perPage: 5,
       currentPage: 1,
       fields: [
-        { key: "dt", label: "Date", sortable: true },
-        { key: "weather[0]", label: "Etat" },
-        { key: "main.temp", label: "Température Moyenne", sortable: true },
-        { key: "main.humidity", label: "Taux d'Humidité", sortable: true }
+        {key: "dt", label: "Date", sortable: true},
+        {key: "weather[0]", label: "Etat"},
+        {key: "main.temp", label: "Température Moyenne", sortable: true},
+        {key: "main.humidity", label: "Taux d'Humidité", sortable: true}
       ]
     };
+  },
+  methods: {
+    animateOrNot: function (temp) {
+      if (temp < this.$data.coldTempFloor) {
+        return "shake";
+      }
+      if (temp > this.$data.hotTempFloor) {
+        return "throb";
+      }
+    }
   },
   asyncComputed: {
     cityData: {
       get() {
         return instantForecastService
-          .getInstantForecast(this.$route.params.cityName)
-          .then(response => response.data);
+            .getInstantForecast(this.$route.params.cityName)
+            .then(response => response.data);
       },
       default() {
         return {};
@@ -118,3 +140,32 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.b-icon-animation-shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both infinite;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+</style>

@@ -77,7 +77,7 @@
         <b-col>
           <b-card-footer>
             <span :title="cityData.dt | moment('DD/MM/YYYY HH:mm:ss')"
-              >updated {{ cityData.dt | moment("from", "now") }}</span
+            >Mis à jour {{ cityData.dt | moment("from", "now") }}</span
             ></b-card-footer
           >
         </b-col>
