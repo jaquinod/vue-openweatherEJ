@@ -51,15 +51,15 @@
                   <template v-slot:cell(main.temp)="data">
                     <temperature
                       :tempdata="data.value"
-                      cold-temp-floor="10"
-                      hot-temp-floor="23"
+                      :cold-temp-floor="coldTempFloor"
+                      :hot-temp-floor="hotTempFloor"
                     ></temperature>
                   </template>
                   <template v-slot:cell(main.humidity)="data">
                     <Humidity
                       :humiditydata="data.value"
-                      max="65"
-                      min="40"
+                      :max="maxHumidity"
+                      :min="minHumidity"
                     ></Humidity>
                   </template>
                 </b-table>
@@ -95,6 +95,8 @@ export default {
   components: { WeatherAvatar, Humidity, Temperature, CityMap },
   data() {
     return {
+      minHumidity: 40,
+      maxHumidity: 65,
       coldTempFloor: 10,
       hotTempFloor: 23,
       perPage: 5,

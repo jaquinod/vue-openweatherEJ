@@ -1,24 +1,35 @@
 <template>
   <b-container :fluid="true" class="h-100">
+    <b-sidebar
+      id="sidebar-variant"
+      title="Recherche de ville"
+      bg-variant="dark"
+      text-variant="light"
+      shadow
+    >
+      <b-form inline class="d-flex pt-3 pb-3 pl-3 pr-3">
+        <b-input
+          v-model="cityToAdd"
+          class="flex-grow-1 rounded"
+          type="text"
+          @keydown.enter.prevent="addNewCity(cityToAdd)"
+        />
+        <b-button @click="addNewCity(cityToAdd)" variant="primary" class="">
+          <b-icon-search></b-icon-search>
+        </b-button>
+      </b-form>
+    </b-sidebar>
+    <b-button
+      v-b-toggle.sidebar-variant
+      variant="primary"
+      title="Recherche de ville"
+      class="position-fixed fixed-top d-block"
+      style="top:1em; left:1em;"
+    >
+      <b-icon-search></b-icon-search>
+    </b-button>
     <b-row class="h-100">
-      <b-col
-        cols="3"
-        class="text-center pt-3 pb-3"
-        style="background-color: #2c3e50"
-      >
-        <b-form inline class="d-flex">
-          <b-input
-            v-model="cityToAdd"
-            class="flex-grow-1"
-            type="text"
-            @keydown.enter.prevent="addNewCity(cityToAdd)"
-          />
-          <b-button @click="addNewCity(cityToAdd)" variant="primary" class="">
-            <b-icon-search></b-icon-search>
-          </b-button>
-        </b-form>
-      </b-col>
-      <b-col>
+      <b-col cols="12">
         <b-container>
           <b-row>
             <b-col

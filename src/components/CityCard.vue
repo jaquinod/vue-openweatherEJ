@@ -40,15 +40,15 @@
                   <b-col>
                     <temperature
                       :tempdata="cityData.main.temp"
-                      cold-temp-floor="10"
-                      hot-temp-floor="23"
+                      :cold-temp-floor="coldTempFloor"
+                      :hot-temp-floor="hotTempFloor"
                     ></temperature>
                   </b-col>
                   <b-col>
                     <Humidity
                       :humiditydata="cityData.main.humidity"
-                      max="65"
-                      min="40"
+                      :max="maxHumidity"
+                      :min="minHumidity"
                     ></Humidity>
                   </b-col>
                 </b-row>
@@ -94,7 +94,12 @@ export default {
   components: { WeatherAvatar, Temperature, Humidity },
   props: ["cityName", "cityIndex"],
   data() {
-    return {};
+    return {
+      minHumidity: 40,
+      maxHumidity: 65,
+      coldTempFloor: 10,
+      hotTempFloor: 23
+    };
   },
   methods: {
     ...mapMutations(["deleteCity"]),
