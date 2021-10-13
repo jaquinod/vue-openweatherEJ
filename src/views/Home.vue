@@ -2,7 +2,7 @@
   <b-container :fluid="true" class="h-100">
     <b-sidebar
       id="sidebar-variant"
-      title="Recherche de villeEJ2"
+      title="Recherche de villeEJ3"
       bg-variant="dark"
       text-variant="light"
       shadow
